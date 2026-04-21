@@ -281,6 +281,7 @@ body {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    overflow-x: hidden !important;
 }
 
 #background-canvas {
@@ -820,6 +821,7 @@ body {
     justify-content: center;
     padding: 2rem;
     animation: fadeIn 0.3s ease-out;
+    overflow-x: hidden !important;
 }
 
 .modal.active {
@@ -1102,6 +1104,8 @@ body {
     background: linear-gradient(135deg, var(--light-surface), rgba(99, 102, 241, 0.05));
     box-sizing: border-box;
     width: 100%;
+    overflow-x: hidden !important;
+
 }
 
 .about-container {
@@ -1208,6 +1212,8 @@ body {
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+    overflow-x: hidden !important;
+
 }
 
 .contact-container {
