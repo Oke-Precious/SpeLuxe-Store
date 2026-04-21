@@ -1104,7 +1104,7 @@ body {
     background: linear-gradient(135deg, var(--light-surface), rgba(99, 102, 241, 0.05));
     box-sizing: border-box;
     width: 100%;
-    overflow-x: hidden !important;
+    overflow: hidden !important;
 
 }
 
