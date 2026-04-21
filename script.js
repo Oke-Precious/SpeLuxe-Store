@@ -187,7 +187,8 @@ function initNavbar() {
     });
 
     // Hamburger menu toggle
-    hamburger.addEventListener('click', () => {
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
@@ -203,6 +204,14 @@ function initNavbar() {
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!navbar.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Handle mobile viewport changes
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
         }
@@ -266,6 +275,14 @@ function openModal(productId) {
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    
+    // Scroll modal to top on mobile
+    if (window.innerWidth <= 768) {
+        const modalContent = document.querySelector('.modal-content');
+        setTimeout(() => {
+            modalContent.scrollTop = 0;
+        }, 100);
+    }
 }
 
 function closeModal() {
@@ -281,6 +298,7 @@ function initModal() {
     const quantityMinus = document.getElementById('quantityMinus');
     const quantityPlus = document.getElementById('quantityPlus');
     const quantity = document.getElementById('quantity');
+    let touchStartX = 0;
 
     // Close button
     modalClose.addEventListener('click', closeModal);
@@ -290,7 +308,7 @@ function initModal() {
         if (e.target === modal) closeModal();
     });
 
-    // Quantity controls
+    // Quantity controls with better mobile support
     quantityMinus.addEventListener('click', () => {
         if (quantity.value > 1) quantity.value--;
     });
@@ -299,12 +317,36 @@ function initModal() {
         quantity.value++;
     });
 
+    // Keyboard support for quantity input
+    quantity.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            quantity.value++;
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (quantity.value > 1) quantity.value--;
+        }
+    });
+
     // Add to cart
     addToCartBtn.addEventListener('click', () => {
         const productId = parseInt(modal.dataset.productId);
         const qty = parseInt(quantity.value);
         addToCart(productId, qty);
         closeModal();
+    });
+
+    // Swipe to close on mobile
+    modal.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+    });
+
+    modal.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        // Swipe left to close
+        if (touchStartX - touchEndX > 100) {
+            closeModal();
+        }
     });
 }
 
@@ -317,19 +359,34 @@ function initCartSidebar() {
     const cartSidebar = document.getElementById('cartSidebar');
     const cartOverlay = document.getElementById('cartOverlay');
     const cartClose = document.getElementById('cartClose');
+    let touchStartX = 0;
 
     cartIcon.addEventListener('click', () => {
         cartSidebar.classList.add('active');
         cartOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
     });
 
     const closeCart = () => {
         cartSidebar.classList.remove('active');
         cartOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
     };
 
     cartClose.addEventListener('click', closeCart);
     cartOverlay.addEventListener('click', closeCart);
+
+    // Swipe to close on mobile
+    cartSidebar.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+    });
+
+    cartSidebar.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        if (touchStartX - touchEndX > 50) {
+            closeCart();
+        }
+    });
 }
 
 // ===========================
@@ -574,6 +631,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Prevent double-tap zoom on buttons (mobile)
+    document.querySelectorAll('button, a').forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.style.opacity = '0.8';
+        });
+        element.addEventListener('touchend', function() {
+            this.style.opacity = '1';
+        });
+    });
+
+    // Handle orientation change
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            AOS.refresh();
+            ScrollTrigger.refresh();
+        }, 100);
+    });
 });
 
 // Handle dynamic theme changes
@@ -587,4 +662,9 @@ document.addEventListener('DOMContentLoaded', () => {
         attributes: true,
         attributeFilter: ['data-theme']
     });
+
+    // Add mobile detection utility
+    window.isMobile = () => window.innerWidth <= 768;
+    window.isTablet = () => window.innerWidth > 768 && window.innerWidth <= 1024;
+    window.isDesktop = () => window.innerWidth > 1024;
 });
