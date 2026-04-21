@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxora - Premium Product Showcase</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS (Animate On Scroll) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="loader"></div>
+            <p>Loading Luxora...</p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-gem"></i> Luxora
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#products" class="nav-link">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+
+            <div class="nav-icons">
+                <!-- Dark Mode Toggle -->
+                <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- Cart Icon -->
+                <button class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+
+                <!-- Hamburger Menu -->
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <canvas id="background-canvas"></canvas>
+        
+        <div class="hero-content">
+            <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="hero-title">
+                    <span class="text-line">Elegance</span>
+                    <span class="text-line">Meets</span>
+                    <span class="text-line">Innovation</span>
+                </h1>
+                <p class="hero-subtitle">Experience the future of premium technology</p>
+                <button class="cta-button" data-aos="fade-up" data-aos-delay="200">
+                    Explore Products <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="hero-float" data-aos="zoom-in" data-aos-duration="1200">
+                <div class="floating-card">
+                    <i class="fas fa-cube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- Product Showcase Section -->
+    <section id="products" class="products">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Our Collection</h2>
+            <p>Curated selection of premium products</p>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Product">
+                    <div class="zoom-container">
+                        <p class="zoom-hint">Zoom: Hover over image</p>
+                    </div>
+                </div>
+
+                <div class="modal-info">
+                    <h2 id="modalTitle"></h2>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(248 reviews)</span>
+                    </div>
+
+                    <div class="price-section">
+                        <h3 class="price" id="modalPrice"></h3>
+                        <p class="original-price">
+                            <span id="modalOriginalPrice"></span>
+                            <span class="discount-badge" id="discountBadge"></span>
+                        </p>
+                    </div>
+
+                    <p class="description" id="modalDescription"></p>
+
+                    <div class="product-specs">
+                        <h4>Key Features:</h4>
+                        <ul id="modalFeatures"></ul>
+                    </div>
+
+                    <div class="modal-actions">
+                        <div class="quantity-selector">
+                            <button id="quantityMinus">-</button>
+                            <input type="number" id="quantity" value="1" min="1">
+                            <button id="quantityPlus">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" id="addToCartBtn">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-guarantee">
+                        <p><i class="fas fa-check-circle"></i> 2-Year Warranty</p>
+                        <p><i class="fas fa-truck"></i> Free Shipping</p>
+                        <p><i class="fas fa-rotate-left"></i> 30-Day Returns</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-text" data-aos="fade-right">
+                <h2>About Luxora</h2>
+                <p>
+                    Founded in 2020, Luxora is dedicated to bringing cutting-edge technology 
+                    and premium design to discerning customers worldwide.
+                </p>
+                <p>
+                    We believe that luxury is not just about price, but about the experience, 
+                    quality, and innovation that each product brings to your life.
+                </p>
+                <div class="about-stats">
+                    <div class="stat" data-aos="fade-up" data-aos-delay="100">
+                        <h3>50K+</h3>
+                        <p>Happy Customers</p>
+                    </div>
+                    <div class="stat" data-aos="fade-up" data-aos-delay="200">
+                        <h3>200+</h3>
+                        <p>Products</p>
+                    </div>
+                    <div class="stat" data-aos="fade-up" data-aos-delay="300">
+                        <h3>95%</h3>
+                        <p>Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual" data-aos="fade-left">
+                <div class="about-box box-1"></div>
+                <div class="about-box box-2"></div>
+                <div class="about-box box-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Get in Touch</h2>
+            <p>We'd love to hear from you</p>
+        </div>
+
+        <div class="contact-container">
+            <form class="contact-form" id="contactForm" data-aos="fade-up">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" id="contactName" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" id="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" id="contactMessage" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+
+            <div class="contact-info" data-aos="fade-left">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>123 Luxury Ave, Tech City, TC 12345</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>info@luxora.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
