@@ -10,6 +10,7 @@ const products = [
         originalPrice: "$1,599",
         discount: "20% OFF",
         image: "🎧",
+        category: "headphones",
         description: "Next-generation wireless headphones with adaptive noise cancellation and premium sound quality.",
         features: ["40-hour battery life", "Premium ANC technology", "Spatial audio support", "Premium materials"]
     },
@@ -20,6 +21,7 @@ const products = [
         originalPrice: "$599",
         discount: "17% OFF",
         image: "⌚",
+        category: "wearables",
         description: "Advanced wearable featuring health monitoring, fitness tracking, and seamless connectivity.",
         features: ["Heart rate monitoring", "Sleep tracking", "5G connectivity", "AMOLED display"]
     },
@@ -30,6 +32,7 @@ const products = [
         originalPrice: "$2,999",
         discount: "17% OFF",
         image: "📷",
+        category: "camera",
         description: "Professional-grade camera with 8K video recording and AI-enhanced photography.",
         features: ["8K video recording", "AI scene detection", "Weather resistant", "Professional lenses"]
     },
@@ -40,6 +43,7 @@ const products = [
         originalPrice: "$1,099",
         discount: "18% OFF",
         image: "📱",
+        category: "tablet",
         description: "Ultra-thin tablet with powerful processor and stunning display for creative professionals.",
         features: ["12.9\" OLED display", "M2 processor", "Stylus included", "Expandable storage"]
     },
@@ -50,6 +54,7 @@ const products = [
         originalPrice: "$799",
         discount: "25% OFF",
         image: "🔊",
+        category: "speakers",
         description: "Premium smart speaker with immersive sound and AI voice assistant integration.",
         features: ["360° sound", "AI assistant", "Multi-room audio", "Premium finish"]
     },
@@ -60,8 +65,97 @@ const products = [
         originalPrice: "$2,499",
         discount: "20% OFF",
         image: "💻",
+        category: "laptop",
         description: "Ultra-lightweight laptop designed for professionals with exceptional performance.",
         features: ["32GB RAM", "1TB SSD", "RTX 4090", "17\" display"]
+    },
+    {
+        id: 7,
+        title: "Photon VR Headset",
+        price: "$799",
+        originalPrice: "$999",
+        discount: "20% OFF",
+        image: "🥽",
+        category: "vr",
+        description: "Immersive virtual reality headset with 4K per eye resolution and advanced motion tracking.",
+        features: ["4K per eye", "120Hz refresh rate", "Hand tracking", "360° sound"]
+    },
+    {
+        id: 8,
+        title: "Sonic Gaming Mouse",
+        price: "$299",
+        originalPrice: "$399",
+        discount: "25% OFF",
+        image: "🖱️",
+        category: "gaming",
+        description: "Ultra-responsive gaming mouse with customizable buttons and RGB lighting.",
+        features: ["16K DPI sensor", "70-hour battery", "Customizable buttons", "RGB lighting"]
+    },
+    {
+        id: 9,
+        title: "Prism Keyboard RGB",
+        price: "$349",
+        originalPrice: "$449",
+        discount: "22% OFF",
+        image: "⌨️",
+        category: "gaming",
+        description: "Mechanical keyboard with premium switches and customizable RGB backlighting.",
+        features: ["Hot-swap switches", "Programmable keys", "USB-C connection", "Aluminum frame"]
+    },
+    {
+        id: 10,
+        title: "Nova Wireless Charger",
+        price: "$199",
+        originalPrice: "$299",
+        discount: "33% OFF",
+        image: "🔋",
+        category: "accessories",
+        description: "Multi-device wireless charging pad with intelligent heat management.",
+        features: ["Fast charging", "Multi-device", "Temperature control", "Non-slip base"]
+    },
+    {
+        id: 11,
+        title: "Echo Portable Speaker",
+        price: "$249",
+        originalPrice: "$349",
+        discount: "29% OFF",
+        image: "📢",
+        category: "speakers",
+        description: "Compact portable speaker with 360° sound and waterproof design.",
+        features: ["Waterproof IP67", "20-hour battery", "Bluetooth 5.2", "Deep bass"]
+    },
+    {
+        id: 12,
+        title: "Prism Smart Display",
+        price: "$349",
+        originalPrice: "$449",
+        discount: "22% OFF",
+        image: "📺",
+        category: "smart-home",
+        description: "10-inch smart display with AI assistant and video calling capabilities.",
+        features: ["10\" screen", "AI assistant", "Video calling", "Smart home control"]
+    },
+    {
+        id: 13,
+        title: "Velocity Action Camera",
+        price: "$449",
+        originalPrice: "$599",
+        discount: "25% OFF",
+        image: "📹",
+        category: "camera",
+        description: "Rugged action camera perfect for extreme sports and outdoor adventures.",
+        features: ["4K video", "Rugged design", "10-hour battery", "Waterproof"]
+    },
+    {
+        id: 14,
+        title: "Infinity Power Bank",
+        price: "$129",
+        originalPrice: "$199",
+        discount: "35% OFF",
+        image: "⚡",
+        category: "accessories",
+        description: "Ultra-compact power bank with fast charging and safe battery management.",
+        features: ["20,000mAh", "65W fast charge", "Multiple ports", "LED display"]
     }
 ];
 
@@ -219,13 +313,25 @@ function initNavbar() {
 }
 
 // ===========================
-// PRODUCT GRID INITIALIZATION
+// SEARCH FUNCTIONALITY
 // ===========================
 
-function initProductGrid() {
+let displayedProducts = [...products];
+
+function renderProductGrid(productsToRender) {
     const productsGrid = document.getElementById('productsGrid');
     
-    productsGrid.innerHTML = products.map(product => `
+    if (productsToRender.length === 0) {
+        productsGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--light-text-secondary);">
+                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                <p style="font-size: 1.1rem;">No products found matching your search.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    productsGrid.innerHTML = productsToRender.map(product => `
         <div class="product-card" data-aos="fade-up">
             <div class="product-image">
                 <span>${product.image}</span>
@@ -246,6 +352,157 @@ function initProductGrid() {
             </div>
         </div>
     `).join('');
+}
+
+function searchProducts(query) {
+    applyFilters(query, selectedCategory);
+}
+
+function updateSearchResultsInfo(query) {
+    const infoElement = document.getElementById('searchResultsInfo');
+    if (query.trim()) {
+        infoElement.textContent = `Found ${displayedProducts.length} product${displayedProducts.length !== 1 ? 's' : ''} matching "${query}"`;
+    } else {
+        infoElement.textContent = '';
+    }
+}
+
+function initSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    
+    if (!searchInput) return;
+    
+    // Search on input
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        searchProducts(query);
+        
+        // Show/hide clear button
+        if (query.trim()) {
+            searchClear.style.display = 'flex';
+        } else {
+            searchClear.style.display = 'none';
+        }
+    });
+    
+    // Clear search
+    searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchClear.style.display = 'none';
+        searchProducts('');
+        searchInput.focus();
+    });
+}
+
+// ===========================
+// CATEGORY FILTER FUNCTIONALITY
+// ===========================
+
+let selectedCategory = null;
+
+function getUniqueCategories() {
+    const categories = [...new Set(products.map(p => p.category))];
+    return categories.sort();
+}
+
+function initCategoryFilter() {
+    const categoryButtons = document.getElementById('categoryButtons');
+    if (!categoryButtons) return;
+
+    const categories = getUniqueCategories();
+    
+    // Create "All Products" button
+    const allBtn = document.createElement('button');
+    allBtn.className = 'category-btn active';
+    allBtn.textContent = 'All Products';
+    allBtn.dataset.category = 'all';
+    allBtn.addEventListener('click', () => filterByCategory('all'));
+    categoryButtons.appendChild(allBtn);
+
+    // Create category buttons
+    categories.forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn';
+        btn.textContent = category.split('-').join(' ');
+        btn.dataset.category = category;
+        btn.addEventListener('click', () => filterByCategory(category));
+        categoryButtons.appendChild(btn);
+    });
+}
+
+function filterByCategory(category) {
+    selectedCategory = category === 'all' ? null : category;
+    
+    // Update active button
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.category === (category === 'all' ? 'all' : category)) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Apply combined filter (search + category)
+    const searchInput = document.getElementById('searchInput');
+    const searchQuery = searchInput ? searchInput.value : '';
+    applyFilters(searchQuery, selectedCategory);
+}
+
+function applyFilters(searchQuery, categoryFilter) {
+    const searchTerm = searchQuery.toLowerCase();
+    
+    let filtered = products.filter(product => {
+        // Apply category filter
+        if (categoryFilter && product.category !== categoryFilter) {
+            return false;
+        }
+        
+        // Apply search filter
+        if (searchTerm) {
+            return (
+                product.title.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm) ||
+                product.features.some(feature => feature.toLowerCase().includes(searchTerm))
+            );
+        }
+        
+        return true;
+    });
+
+    displayedProducts = filtered;
+    renderProductGrid(displayedProducts);
+    updateFilterInfo(searchQuery, categoryFilter);
+    AOS.refresh();
+}
+
+function updateFilterInfo(searchQuery, categoryFilter) {
+    const infoElement = document.getElementById('searchResultsInfo');
+    let infoText = '';
+
+    if (searchQuery.trim() || categoryFilter) {
+        let filterDesc = [];
+        
+        if (searchQuery.trim()) {
+            filterDesc.push(`searching for "${searchQuery}"`);
+        }
+        
+        if (categoryFilter) {
+            filterDesc.push(`in ${categoryFilter.split('-').join(' ')}`);
+        }
+
+        infoText = `Found ${displayedProducts.length} product${displayedProducts.length !== 1 ? 's' : ''} ${filterDesc.join(' ')}`;
+    }
+
+    infoElement.textContent = infoText;
+}
+
+// ===========================
+// PRODUCT GRID INITIALIZATION
+// ===========================
+
+function initProductGrid() {
+    renderProductGrid(products);
 }
 
 // ===========================
@@ -608,6 +865,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initNavbar();
     initProductGrid();
+    initSearch();
+    initCategoryFilter();
     initModal();
     initCartSidebar();
     initBackToTop();
