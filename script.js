@@ -670,19 +670,32 @@ function initBackToTop() {
 // CONTACT FORM
 // ===========================
 
+// ===========================
+// CTA BUTTON (EXPLORE PRODUCTS)
+// ===========================
+
+function scrollToProducts() {
+    const productsSection = document.getElementById('products');
+    if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// ===========================
+// CONTACT FORM
+// ===========================
+
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
 
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
         const name = document.getElementById('contactName').value;
         const email = document.getElementById('contactEmail').value;
         const message = document.getElementById('contactMessage').value;
 
         if (name && email && message) {
-            showToast(`Thank you, ${name}! We'll contact you soon.`);
-            contactForm.reset();
+            showToast(`Thank you, ${name}! Your message is being sent...`);
+            // Form will submit to FormSubmit after showing the toast
         }
     });
 }

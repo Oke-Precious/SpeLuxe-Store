@@ -1104,7 +1104,7 @@ body {
     background: linear-gradient(135deg, var(--light-surface), rgba(99, 102, 241, 0.05));
     box-sizing: border-box;
     width: 100%;
-    overflow: hidden !important;
+    overflow-x: hidden !important;
 
 }
 
@@ -1240,6 +1240,9 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     transition: all var(--transition);
+}
+.form-group textarea{
+    height: 230px !important;
 }
 
 .form-group input:focus,

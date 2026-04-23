@@ -22,7 +22,7 @@
     <div class="preloader" id="preloader">
         <div class="preloader-content">
             <div class="loader"></div>
-            <p>Loading Luxora...</p>
+            <p>Loading SpeLuxe...</p>
         </div>
     </div>
 
@@ -84,7 +84,7 @@
                     <span class="text-line">Innovation</span>
                 </h1>
                 <p class="hero-subtitle">Experience the future of premium technology</p>
-                <button class="cta-button" data-aos="fade-up" data-aos-delay="200">
+                <button class="cta-button" data-aos="fade-up" data-aos-delay="200" onclick="scrollToProducts()">
                     Explore Products <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
@@ -245,16 +245,17 @@
         </div>
 
         <div class="contact-container">
-            <form class="contact-form" id="contactForm" data-aos="fade-up">
+            <form class="contact-form" id="contactForm" action="https://formsubmit.co/okeprecido@gmail.com" method="POST" data-aos="fade-up">
                 <div class="form-group">
-                    <input type="text" placeholder="Your Name" id="contactName" required>
+                    <input type="text" id="contactName" placeholder="Your Name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" placeholder="Your Email" id="contactEmail" required>
+                    <input type="email" id="contactEmail" placeholder="Your Email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <textarea placeholder="Your Message" id="contactMessage" rows="5" required></textarea>
+                    <textarea id="contactMessage" placeholder="Your Message" name="message" rows="5" required></textarea>
                 </div>
+                <input type="hidden" name="_captcha" value="false">
                 <button type="submit" class="submit-btn">Send Message</button>
             </form>
 
@@ -270,14 +271,14 @@
                     <i class="fas fa-phone"></i>
                     <div>
                         <h4>Phone</h4>
-                        <p>+1 (555) 123-4567</p>
+                        <p>+234 810 123 8416</p>
                     </div>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-envelope"></i>
                     <div>
                         <h4>Email</h4>
-                        <p>info@luxora.com</p>
+                        <p>okeprecido@gmail.com</p>
                     </div>
                 </div>
             </div>
